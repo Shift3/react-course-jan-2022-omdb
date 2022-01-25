@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import {useState, useEffect} from "react";
+import MovieCard from "./MovieCard";
+import MovieDetails from "./MovieDetails";
+import {getMoviesbySearchTerm, getMoviedetailsById} from "./utils"
 
 function App() {
+  const [movie, setMovie] = useState({});
+
+  useEffect(() => {
+    getMoviedetailsById('tt0078346').then(result => {
+      console.log(result);
+      setMovie(result);
+    } );
+    
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MovieDetails 
+    posterUrl = {movie.Poster}
+    title = {movie.Title}
+    rated = {movie.Rated}
+    runtime = {movie.Runtime}
+    genre = {movie.Genre}
+    plot = {movie.Plot}
+    actors = {movie.Actors}
+    rating = {movie.imdbRating}
+      
+      />
   );
 }
 

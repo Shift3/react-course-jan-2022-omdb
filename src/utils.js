@@ -1,5 +1,5 @@
 const apiUrl = `http://www.omdbapi.com`;
-const apiKey = '';
+const apiKey = process.env.REACT_APP_API_KEY;
 
 export const getMoviesbySearchTerm = async term => {
   const fetchResults = await fetch(`${apiUrl}/?apiKey=${apiKey}&t=${term}`);
