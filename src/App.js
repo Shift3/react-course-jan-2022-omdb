@@ -1,30 +1,42 @@
-import {useState, useEffect} from "react";
-import MovieCard from "./MovieCard";
-import MovieDetails from "./MovieDetails";
-import {getMoviesbySearchTerm, getMoviedetailsById} from "./utils"
+import { useState, useEffect } from "react";
+import { getMoviesbySearchTerm } from "./utils"
 
 function App() {
-  const [movie, setMovie] = useState({});
+  const [searchTerm, setSearchTerm] = useState("batman");
+  const [isLoading, setIsLoading] = useState(false);
+  const [movies, setMovies] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    getMoviedetailsById('tt0078346').then(result => {
-      console.log(result);
-      setMovie(result);
-    } );
+    setIsLoading(true);
+    getMoviesbySearchTerm(searchTerm).then(result => {
+      setMovies(result);
+      setError(null);
+      setIsLoading(false);
+    }).catch(err => {
+      console.log('err: ', err);
+      setError(err);
+      setMovies([]);
+      setIsLoading(false);
+    });
     
-  }, []);
+  }, [searchTerm]);
+
+  const renderingUI = () => {
+    if(isLoading){
+      return `Loading...`;
+    } else {
+      if ( !error ) {
+        return `Fetched successflly...`;
+      } else {
+        return `We have an error!`
+      }
+    }
+  }
   return (
-    <MovieDetails 
-    posterUrl = {movie.Poster}
-    title = {movie.Title}
-    rated = {movie.Rated}
-    runtime = {movie.Runtime}
-    genre = {movie.Genre}
-    plot = {movie.Plot}
-    actors = {movie.Actors}
-    rating = {movie.imdbRating}
-      
-      />
+    <div>
+      <p>{ renderingUI() }  </p>
+    </div>
   );
 }
 

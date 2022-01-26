@@ -1,3 +1,4 @@
+ 
 const MovieCard = ({title, type, posterUrl}) => {
   return (
     <div>
