@@ -1,10 +1,12 @@
  
-const MovieCard = ({title, type, posterUrl}) => {
+const MovieCard = ({movie}) => {
+  const {Title, Type, Poster} = movie;
+  
   return (
     <div>
-      <img src={posterUrl} alt={title} />
-      <p>{title}</p> 
-      <button>{type}</button> 
+      <img src={Poster} alt={Title} />
+      <p>{Title}</p> 
+      <button>{Type}</button> 
     </div>
   );
 }

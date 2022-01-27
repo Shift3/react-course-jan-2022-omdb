@@ -1,43 +1,57 @@
 import { useState, useEffect } from "react";
 import { getMoviesbySearchTerm } from "./utils"
+import MovieList from "./MovieList";
+import Spinner from "./Spinner";
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState("batman");
+  const [searchTerm, setSearchTerm] = useState("marvel");
   const [isLoading, setIsLoading] = useState(false);
   const [movies, setMovies] = useState([]);
-  const [error, setError] = useState(null);
+  const [isError, setIsError] = useState(null);
 
   useEffect(() => {
     setIsLoading(true);
     getMoviesbySearchTerm(searchTerm).then(result => {
-      setMovies(result);
-      setError(null);
+      const searchedResultrs = [result];
+      setMovies(searchedResultrs);
+      setIsError(null);
       setIsLoading(false);
     }).catch(err => {
       console.log('err: ', err);
-      setError(err);
+      setIsError(`Error occured: ${err}`);
       setMovies([]);
       setIsLoading(false);
     });
     
   }, [searchTerm]);
 
-  const renderingUI = () => {
-    if(isLoading){
-      return `Loading...`;
-    } else {
-      if ( !error ) {
-        return `Fetched successflly...`;
-      } else {
-        return `We have an error!`
-      }
-    }
-  }
-  return (
-    <div>
-      <p>{ renderingUI() }  </p>
-    </div>
-  );
+  return(
+    <>
+      <header>
+          <h1>Movie App</h1>
+      </header>
+
+      {isLoading ? (<Spinner />) : (
+            <>
+              {movies.length ? (
+                <>
+                    <MovieList movies={movies} />
+                </>
+              ) : (
+                    <div>
+                        <p>
+                            We're sorry! We could not find results for your search{" "}
+                            <span style={{ fontWeight: "bolder", color: "#d9534f" }}>
+                            '{searchTerm}'
+                            </span>
+                            . Please, try again!
+                        </p>
+                    </div>
+                )}
+            </>
+        )}
+    </>
+);
 }
 
 export default App;
