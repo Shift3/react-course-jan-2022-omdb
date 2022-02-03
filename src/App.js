@@ -27,7 +27,8 @@ function App() {
 
   return(
     <>
-      <header>
+    
+      <header> 
           <h1>Movie App</h1>
       </header>
 

@@ -1,32 +1,43 @@
-import "./movieCard.css";
+import { useEffect, useState } from "react";
+import "./movieDetails.css";
+import {getMoviedetailsById} from "./utils"
 
-const MovieDetails = (props)=>{
-  const { posterUrl, title, rated, runtime, genre, plot, actors, rating } =props;
+const MovieDetails = ({movieId})=>{
+  const [movie, setMovie] = useState({});
+
+  useEffect(() => {
+    getMoviedetailsById(movieId).then( data =>{ 
+      setMovie({...data})
+    }).catch( err => {
+      console.error("An error occured: ", err)
+      setMovie({});
+    });
+  }, [movieId])
 
   return(
     <div className="movie">
-      <img src={posterUrl} alt={title} />
+      <img src={movie.Poster} alt={movie.Title} style={{paddingRight:'2rem'}} />
       
       <div className="movieDetail">
-        <h2>{title}</h2>
-        <h1 style={{color: 'blue'}}>{rating}</h1>
+        <h2>{movie.Title}</h2>
+        <h1 style={{color: 'blue'}}>{movie.imdbRating}</h1>
         <div>
-          <span>{rated}</span>
-          <span>{runtime}</span>
+          <span>{movie.Rated}</span>
+          <span>{movie.Runtime}</span>
         </div>
 
         <div>
-          <span>{genre}</span>
+          <span>{movie.Genre}</span>
         </div>
 
         <div>
           <h4>Plot</h4>
-          <p>{plot}</p>
+          <p>{movie.Plot}</p>
         </div>
 
         <div>
           <h4>Actors</h4>
-          <p>{actors}</p>
+          <p>{movie.Actors}</p>
         </div>
       </div>
   

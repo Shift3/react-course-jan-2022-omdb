@@ -1,0 +1,29 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html {
+    box-sizing: border-box;
+    font-size: 100%;
+}
+
+#root {
+    display: grid;
+    grid-template-rows: auto 2fr;
+    grid-gap: 5rem;
+}
+
+header{
+ justify-self: center;
+ align-self: center;
+ padding-bottom: 3rem;
+ padding-top: 3rem;
+}
+
+h1{
+  color: cornflowerblue;
+}
