@@ -1,25 +1,15 @@
-import { useState} from "react";
 import styled from "styled-components";
 
-const SearchBar = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+const SearchBar = (props) => {
   const searchTypes = ["movie", "series", "episodes"];
-  const search = () => {
-
-  }
-
+  
   return (
     
-      <form onSubmit={e => {
-        e.preventDefault();
-        search();
-      }}>
+      <form onSubmit={(e) => props.onSubmit(e)}>
         <Row>
         <label htmlFor="searchInput">Search Term:
           <input id="searchInput" 
               placeholder="Enter movie, series, or episode name..."
-              value={searchTerm}
-              onChange={e => setSearchTerm(e.target.value)}
               style={{width: '80%'}}/>
         </label>
         
