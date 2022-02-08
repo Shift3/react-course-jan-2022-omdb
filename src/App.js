@@ -13,17 +13,16 @@ function App() {
     const [isError, setIsError] = useState(null);
 
     useEffect(() => {
-      getMoviesbySearchTerm(searchTerm).then(response => {
-        setIsLoading(false);
+      getMoviesbySearchTerm(searchTerm, searchType).then(response => {
         if(response.Error){
           setMovies([]);
           setIsError(`Error occured: ${response.Error}`);
         }
         setMovies(response.Search);
-        console.log("movies: ", movies);
       }).catch(err => {
           setMovies([]);
           setIsError(`Error occured: ${err}`);
+          console.log(isError);
       }).finally(() => setIsLoading(false));
 
 
@@ -43,7 +42,6 @@ function App() {
               { movies.length ? (
                 <>
                   <SearchBar onSubmit={(e) => {
-                    console.log('e: ', e);
                     e.preventDefault();
                     setSearchTerm(e.target.searchInput.value)
                     setSearchType(e.target.searchType.value)
