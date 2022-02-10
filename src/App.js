@@ -69,9 +69,18 @@ function App() {
                   />
 
                 <div style={{margin: "0 auto"}}>
-                    <button style={{marginRight: "1rem", cursor: "pointer", fontSize:"3rem", padding: "1rem 2rem"}} onClick={previousPage}>&lt;</button>
-                    <button style={{cursor: "pointer",  fontSize:"3rem", padding: "1rem 2rem"}} onClick={nextPage}>&gt;</button>
+                    <button style={{marginRight: "1rem", cursor: pageNum === 1 ? "" : "pointer" , fontSize:"3rem", padding: "1rem 2rem"}} 
+                      onClick={previousPage}
+                      disabled={pageNum === 1}
+                      >&lt;</button>
+                    <button style={{cursor: pageNum === totalPages ? "" : "pointer",  fontSize:"3rem", padding: "1rem 2rem"}} 
+                    onClick={nextPage}
+                    disabled={pageNum === totalPages}
+                    >&gt;</button>
+
+                    <p style={{marginTop: "2rem", textAlign:"Center", fontWeight: "bold"}}>Page {pageNum} of {totalPages}</p>
                   </div>
+
 
                   <MovieList movies={movies}/>
                 </>
