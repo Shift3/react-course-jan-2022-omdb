@@ -6,6 +6,8 @@ import Spinner from "./Spinner";
 
 
 function App() {
+    const [pageNum, setPageNum] = useState(1);
+    const [totalPages, setTotalPages] = useState(null);
     const [movies, setMovies] = useState([]);
     const [searchTerm, setSearchTerm] = useState("marvel");
     const [searchType, setSearchType] = useState("movie");
@@ -13,20 +15,37 @@ function App() {
     const [isError, setIsError] = useState(null);
 
     useEffect(() => {
-      getMoviesbySearchTerm(searchTerm, searchType).then(response => {
+      getMoviesbySearchTerm(searchTerm, searchType, pageNum).then(response => {
         if(response.Error){
           setMovies([]);
+          setTotalPages(null);
           setIsError(`Error occured: ${response.Error}`);
         }
         setMovies(response.Search);
+        setTotalPages(Math.ceil(response.totalResults / 10));
       }).catch(err => {
           setMovies([]);
+          setTotalPages(null);
           setIsError(`Error occured: ${err}`);
           console.log(isError);
       }).finally(() => setIsLoading(false));
 
 
-    }, [searchTerm, searchType]);
+    }, [searchTerm, searchType, pageNum]);
+
+    const previousPage = () => {
+      console.log("pageNum previous: ", pageNum);
+      if(movies && pageNum !== 1){
+        setPageNum(pageNum-1);
+      }
+    }
+
+    const nextPage = () => {
+      console.log("pageNum next: ", pageNum);
+      if(movies && pageNum < totalPages){
+        setPageNum(pageNum+1);
+      }
+    }
 
     return(
     <>
@@ -48,6 +67,11 @@ function App() {
                     
                   }}
                   />
+
+                <div style={{margin: "0 auto"}}>
+                    <button style={{marginRight: "1rem", cursor: "pointer", fontSize:"3rem", padding: "1rem 2rem"}} onClick={previousPage}>&lt;</button>
+                    <button style={{cursor: "pointer",  fontSize:"3rem", padding: "1rem 2rem"}} onClick={nextPage}>&gt;</button>
+                  </div>
 
                   <MovieList movies={movies}/>
                 </>
